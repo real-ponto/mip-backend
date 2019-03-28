@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+require('./../src/helpers/loadenv')
+const databaseHelper = require('../src/helpers/database')
+
+databaseHelper
+  .forceCreateTables()
+  .then(() => databaseHelper.createResources())
+  .then(() => databaseHelper.createSpecialities())
+  .then(() => process.exit(0))

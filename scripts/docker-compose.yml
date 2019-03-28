@@ -1,0 +1,30 @@
+version: '2.1'
+services:
+  base:
+    build:
+      context: ..
+      dockerfile: ./dockerfile
+  server:
+      extends: base
+      command: yarn start:stage
+      links: 
+        - database
+      environment:
+        - NODE_ENV=production
+      ports:
+        - 4000
+  database:
+    image: postgres:9.6.5-alpine
+    ports:
+      - 5432
+    volumes:
+      - database:/var/lib/postgresql/data
+  nginx:
+    build: ./nginx
+    links: 
+      - server
+    ports:
+      - 443:443
+volumes:
+  database:
+

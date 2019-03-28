@@ -1,0 +1,60 @@
+version: 2
+jobs:
+  test:
+    working_directory: ~/server
+    docker: 
+      - image: circleci/node:8
+      - image: postgres:9.6.5-alpine
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+    environment:
+      NODE_ENV: test
+    steps:
+      - checkout
+      - run:
+          name: update-npm 
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-dependencies
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: create-tables
+          command: './scripts/createTable'
+      - run:
+          name: run-server
+          command: 'yarn start'
+          background: true
+      - run:
+          name: test
+          command: yarn test
+  stage_deploy:
+    docker: 
+      - image: circleci/node:8
+    working_directory: ~/server
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "23:d1:f3:bd:fe:93:ed:78:74:f3:6e:1c:37:6b:c4:71"
+      - run:
+          name: deployment
+          command: |
+            ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+            ssh $SSH_USER@$SSH_HOST "cd $PROJECT_PATH && git checkout $CIRCLE_BRANCH && git pull --rebase origin $CIRCLE_BRANCH && export NODE_ENV=production && sh ./scripts/deploy.sh"
+workflows:
+  version: 2
+  test_and_build:
+    jobs:
+      - test
+      - stage_deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
