@@ -1,6 +1,4 @@
 const db = require('../../database')
-const resourcesObj = require('../resources')
-
 
 const dropAllTable = () => db.dropAllSchemas()
 
@@ -10,16 +8,20 @@ const isDatabaseConnected = () => db
 const forceCreateTables = () => isDatabaseConnected()
   .then(() => db.sync({ force: true }))
 
-const createResources = async () => {
-  const Resource = db.model('resource')
+const createUserAdmin = async () => {
+  const User = db.model('user')
+  const Login = db.model('login')
 
-  const resources = Object.keys(resourcesObj)
-    .map(key => ({
-      name: key,
-      id: resourcesObj[key],
-    }))
+  const userAdmin = {
+    name: 'realponto',
+    username: 'modrp',
+    email: 'joannisbs@gmail.com',
+    login: {
+      password: '102030',
+    },
+  }
 
-  await Resource.bulkCreate(resources)
+  await User.create(userAdmin, { include: [Login] })
 }
 
 const dropAndDisconnectDatabase = () => db
@@ -29,6 +31,6 @@ module.exports = {
   isDatabaseConnected,
   forceCreateTables,
   dropAndDisconnectDatabase,
-  createResources,
+  createUserAdmin,
   dropAllTable,
 }

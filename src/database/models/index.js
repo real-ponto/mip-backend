@@ -1,5 +1,10 @@
-const employee = require('./employee')
+const user = require('./user')
+const login = require('./login')
+const session = require('./session')
 
 module.exports = [
-  employee,
+  user,
+
+  login,
+  session,
 ]
