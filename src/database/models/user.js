@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize) => {
-  const employee = sequelize.define('employee', {
+  const user = sequelize.define('user', {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
@@ -23,5 +23,9 @@ module.exports = (sequelize) => {
     },
   })
 
-  return employee
+  user.associate = (models) => {
+    user.belongsTo(models.login)
+  }
+
+  return user
 }

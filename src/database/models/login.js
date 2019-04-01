@@ -20,14 +20,6 @@ module.exports = (sequelize) => {
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
-    type: {
-      type: Sequelize.ENUM(['contractor', 'employee']),
-      allowNull: false,
-    },
-    status: {
-      type: Sequelize.ENUM(['active', 'waiting_activation', 'inactive']),
-      defaultValue: 'waiting_activation',
-    },
     password: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -41,7 +33,7 @@ module.exports = (sequelize) => {
       },
     })
 
-    login.hasOne(models.employee)
+    login.hasOne(models.user)
   }
 
   login.prototype.checkPassword = function compare(plaintext) {
