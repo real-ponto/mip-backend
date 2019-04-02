@@ -16,12 +16,10 @@ module.exports = (sequelize) => {
     },
     ip: {
       type: Sequelize.STRING,
-      allowNull: true,
       unique: true,
     },
     operadora: {
       type: Sequelize.ENUM('Vivo', 'Porto', 'Claro', 'Oi'),
-      allowNull: true,
     },
   })
 

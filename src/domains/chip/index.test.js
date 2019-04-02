@@ -29,6 +29,34 @@ describe('chip-domain', () => {
         .toThrow()
     })
 
+    test('numChip null', async () => {
+      const chipMock = {
+        numChip: '',
+        ip: '172.40.24.202',
+        operadora: 'Claro',
+      }
+
+      await expect(chipDomain.createChip(chipMock)).rejects
+        .toThrowError(new FieldValidationError([{
+          field: 'numChip',
+          message: 'numChip cannot be null',
+        }]))
+    })
+
+    test('operadora', async () => {
+      const chipMock = {
+        numChip: '101010100',
+        ip: '172.40.24.202',
+        operadora: '',
+      }
+
+      await expect(chipDomain.createChip(chipMock)).rejects
+        .toThrowError(new FieldValidationError([{
+          field: 'operadora',
+          message: 'operadora cannot be null',
+        }]))
+    })
+
     test('omit numChip', async () => {
       const chipMock = R.omit(['numChip'], generateChip())
 

@@ -12,10 +12,33 @@ class ChipDomain {
 
     const noHasNumChip = R.not(R.has('numChip', chip))
 
+    const noHasOperadora = R.not(R.has('operadora', chip))
+
     if (noHasNumChip) {
       throw new FieldValidationError([{
         field: 'numChip',
         message: 'numChip cannot be null',
+      }])
+    }
+
+    if (!chip.numChip) {
+      throw new FieldValidationError([{
+        field: 'numChip',
+        message: 'numChip cannot be null',
+      }])
+    }
+
+    if (noHasOperadora) {
+      throw new FieldValidationError([{
+        field: 'operadora',
+        message: 'operadora cannot be null',
+      }])
+    }
+
+    if (!chip.operadora) {
+      throw new FieldValidationError([{
+        field: 'operadora',
+        message: 'operadora cannot be null',
       }])
     }
 
