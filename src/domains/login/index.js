@@ -7,11 +7,9 @@ class LoginDomain {
   async login({ username, password }, options = {}) {
     const { transaction = null } = options
 
-    console.log(username)
 
     const user = await User.findOne({ where: { username } })
 
-    console.log(user)
     return user
   }
 }
