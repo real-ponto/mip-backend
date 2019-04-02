@@ -29,7 +29,7 @@ class UserDomain {
 
     const user = formatBody(userNotFormatted)
 
-    const { login: { password } } = bodyData
+    const password = R.prop('username', user)
 
     const { transaction = null } = options
 

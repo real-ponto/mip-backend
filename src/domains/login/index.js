@@ -1,5 +1,7 @@
 const database = require('../../database')
 
+const { UnauthorizedError } = require('../../helpers/errors')
+
 const User = database.model('user')
 const Login = database.model('login')
 
@@ -7,11 +9,20 @@ class LoginDomain {
   async login({ username, password }, options = {}) {
     const { transaction = null } = options
 
-    console.log(username)
+    const user = await Login.findOne({
+      include: [{
+        model: User,
+        where: { username },
+      }],
+      transaction,
+    })
 
-    const user = await User.findOne({ where: { username } })
+    const checkPwd = await user.checkPassword(password)
 
-    console.log(user)
+    if (!checkPwd) {
+      throw new UnauthorizedError()
+    }
+
     return user
   }
 }
