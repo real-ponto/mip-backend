@@ -1,15 +1,19 @@
 const database = require('../../database')
 
+const SessionDomain = require('./session')
+
 const { UnauthorizedError } = require('../../helpers/errors')
 
 const User = database.model('user')
 const Login = database.model('login')
 
+const sessionDomain = new SessionDomain()
+
 class LoginDomain {
   async login({ username, password }, options = {}) {
     const { transaction = null } = options
 
-    const user = await Login.findOne({
+    const login = await Login.findOne({
       include: [{
         model: User,
         where: { username },
@@ -17,17 +21,22 @@ class LoginDomain {
       transaction,
     })
 
-    if (!user) {
+    if (!login) {
       throw new UnauthorizedError()
     }
 
-    const checkPwd = await user.checkPassword(password)
+    const checkPwd = await login.checkPassword(password)
 
     if (!checkPwd) {
       throw new UnauthorizedError()
     }
 
-    return user
+    const session = await sessionDomain.createSession(
+      login.id,
+      { transaction },
+    )
+
+    return session
   }
 }
 

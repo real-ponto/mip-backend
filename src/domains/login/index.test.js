@@ -28,9 +28,9 @@ describe('login-domain', () => {
 
       const userLogin = getUserLoginMock(userCreated)
 
-      const login = await loginDomain.login(userLogin)
+      const session = await loginDomain.login(userLogin)
 
-      expect(login.user.username).toEqual(userLogin.username)
+      expect(session.id).not.toBeNull()
     })
 
     test('try login with incorrect password', async () => {
