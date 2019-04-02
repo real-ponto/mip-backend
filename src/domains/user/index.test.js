@@ -1,9 +1,9 @@
 const R = require('ramda')
 
-const { FieldValidationError } = require('../../helpers/errors')
-const { generateUser } = require('../../helpers/mockData/user')
 const UserDomain = require('./')
 
+const { FieldValidationError } = require('../../helpers/errors')
+const { generateUser } = require('../../helpers/mockData/user')
 
 const userDomain = new UserDomain()
 

@@ -1,6 +1,6 @@
 const user = require('./user')
 const login = require('./login')
-const session = require('./session')
+const session = require('./login/session')
 
 module.exports = [
   user,
