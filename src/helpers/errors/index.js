@@ -36,6 +36,13 @@ class UnauthorizedError extends Base {
   }
 }
 
+class ObjectNotFoundError extends Base {
+  constructor() {
+    super('ObjectNotFound', 422)
+    Error.captureStackTrace(this, this.constructor)
+  }
+}
+
 class ValidationError extends Base {
   constructor() {
     super('ValidationError', 422)
@@ -76,4 +83,5 @@ module.exports = {
   MaliciousError,
   GoneError,
   SearchError,
+  ObjectNotFoundError,
 }
