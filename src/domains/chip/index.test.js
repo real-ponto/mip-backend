@@ -9,7 +9,7 @@ const chipDomain = new ChipDomain()
 describe('chip-domain', () => {
   describe('chipCreateTest', () => {
     test('try add chip with correct date', async () => {
-      const chipMock = generateChip()
+      const chipMock = generateChip(999)
 
       const chipCreated = await chipDomain.createChip(chipMock)
 
@@ -64,6 +64,40 @@ describe('chip-domain', () => {
         .toThrowError(new FieldValidationError([{
           field: 'numChip',
           message: 'numChip cannot be null',
+        }]))
+    })
+  })
+
+  describe('getChipByIdTest', () => {
+    let chipCreated = null
+    let counter = 0
+    beforeEach(async () => {
+      const chipMock = generateChip(counter)
+      counter += 1
+      chipCreated = await chipDomain.createChip(chipMock)
+    })
+
+    test('get correct date', async () => {
+      const chipReturned = await chipDomain.getById(chipCreated.id)
+
+      expect(chipReturned.numChip).toEqual(chipCreated.numChip)
+      expect(chipReturned.ip).toEqual(chipCreated.ip)
+      expect(chipReturned.operadora).toEqual(chipCreated.operadora)
+    })
+
+    test('get null', async () => {
+      await expect(chipDomain.getById(null))
+        .rejects.toThrowError(new FieldValidationError([{
+          field: 'id',
+          message: 'id cannot be null',
+        }]))
+    })
+
+    test('get incorrect id', async () => {
+      await expect(chipDomain.getById('eda')).rejects
+        .toThrowError(new FieldValidationError([{
+          field: 'id',
+          message: 'id is invalid',
         }]))
     })
   })

@@ -1,4 +1,5 @@
 const R = require('ramda')
+const { isUUID } = require('validator')
 
 const { FieldValidationError } = require('../../helpers/errors')
 
@@ -50,10 +51,33 @@ class ChipDomain {
 
     const chipCreated = await Chip.create(chip, optionsForCreate)
 
-    const chipReturned = await Chip.findById(chipCreated.id, {
+    const chipReturned = await Chip.findByPk(chipCreated.id, {
       transaction,
     })
 
+    return chipReturned
+  }
+
+  async getById(id, options = {}) {
+    const { transaction = null } = options
+
+    if (!id) {
+      throw new FieldValidationError([{
+        name: 'id',
+        message: 'id cannot to be null',
+      }])
+    }
+
+    if (!isUUID(id)) {
+      throw new FieldValidationError([{
+        name: 'id',
+        message: 'id is invalid',
+      }])
+    }
+
+    const chipReturned = await Chip.findByPk(id, {
+      transaction,
+    })
     return chipReturned
   }
 }
