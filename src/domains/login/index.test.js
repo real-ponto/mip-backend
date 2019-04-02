@@ -14,7 +14,6 @@ describe('login-domain', () => {
     let userCreated = {}
     let counter = 0
 
-
     beforeEach(async () => {
       const userMock = generateUser(`login_domain${counter}`)
       counter += 1
@@ -43,6 +42,16 @@ describe('login-domain', () => {
 
       userLogin = {
         ...userLogin,
+        password: 'abcs',
+      }
+
+      await expect(loginDomain.login(userLogin))
+        .rejects.toThrowError(new UnauthorizedError())
+    })
+
+    test('try login with user not registered', async () => {
+      const userLogin = {
+        username: 'userNaoCadastrado',
         password: 'abcs',
       }
 

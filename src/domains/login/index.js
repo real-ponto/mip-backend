@@ -17,6 +17,10 @@ class LoginDomain {
       transaction,
     })
 
+    if (!user) {
+      throw new UnauthorizedError()
+    }
+
     const checkPwd = await user.checkPassword(password)
 
     if (!checkPwd) {
