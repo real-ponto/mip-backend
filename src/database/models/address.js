@@ -33,16 +33,11 @@ module.exports = (sequelize) => {
     },
     referencePoint: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     zipCode: {
       type: Sequelize.STRING,
       allowNull: false,
-      set(oldValue) {
-        // eslint-disable-next-line no-useless-escape
-        const newValue = oldValue.replace(/\.|-/gi, '')
-        this.setDataValue('zipCode', newValue)
-      },
     },
   })
 
