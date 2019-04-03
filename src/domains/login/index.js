@@ -38,6 +38,13 @@ class LoginDomain {
 
     return session
   }
+
+  // async logoff(session, options = {}) {
+  //   await sessionDomain.turnInvalidSession(session)
+
+  //   const isValid = await sessionDomain.checkSessionIsValid(session)
+
+  // }
 }
 
 module.exports = LoginDomain
