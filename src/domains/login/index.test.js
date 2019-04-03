@@ -61,6 +61,67 @@ describe('login-domain', () => {
         .rejects.toThrowError(new UnauthorizedError())
     })
   })
+
+  describe('logoutTest', () => {
+    let counter = 0
+    let session = {}
+    let userLogin = {}
+
+    beforeEach(async () => {
+      const userMock = generateUser(`logout_domain${counter}`)
+      counter += 1
+      const userCreated = await userDomain.createUser(userMock)
+
+      const getUserLoginMock = R.applySpec({
+        username: R.prop('username'),
+        password: R.prop('username'),
+      })
+
+      userLogin = getUserLoginMock(userCreated)
+
+      session = await loginDomain.login(userLogin)
+    })
+
+    test('try logout', async () => {
+      const logoutSucess = await loginDomain.logout(session.id)
+
+      const sucess = {
+        logout: true,
+      }
+
+      expect(logoutSucess).toEqual(sucess)
+    })
+
+    test('try logout all sessions', async () => {
+      const session2 = await loginDomain.login(userLogin)
+      const session3 = await loginDomain.login(userLogin)
+      const session4 = await loginDomain.login(userLogin)
+      const session5 = await loginDomain.login(userLogin)
+
+      await loginDomain.logoutAllSessions(userLogin.username)
+
+      const isValid1 = await sessionDomain
+        .checkSessionIsValid(session.id, userLogin.username)
+
+      const isValid2 = await sessionDomain
+        .checkSessionIsValid(session2.id, userLogin.username)
+
+      const isValid3 = await sessionDomain
+        .checkSessionIsValid(session3.id, userLogin.username)
+
+      const isValid4 = await sessionDomain
+        .checkSessionIsValid(session4.id, userLogin.username)
+
+      const isValid5 = await sessionDomain
+        .checkSessionIsValid(session5.id, userLogin.username)
+
+      expect(isValid1).toBeFalsy()
+      expect(isValid2).toBeFalsy()
+      expect(isValid3).toBeFalsy()
+      expect(isValid4).toBeFalsy()
+      expect(isValid5).toBeFalsy()
+    })
+  })
 })
 
 describe('Session Domains Tests', () => {
