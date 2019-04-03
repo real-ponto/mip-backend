@@ -15,11 +15,28 @@ class ChipDomain {
 
     const noHasOperadora = R.not(R.has('operadora', chip))
 
+    const HasIp = R.has('ip', chip)
+
     if (noHasNumChip) {
       throw new FieldValidationError([{
         field: 'numChip',
         message: 'numChip cannot be null',
       }])
+    }
+
+    if (HasIp) {
+      if (!chip.ip) {
+        const chipIpExistent = await Chip.findOne({
+          where: { ip: chip.ip },
+        })
+
+        if (chipIpExistent) {
+          throw new FieldValidationError([{
+            field: 'ip',
+            message: 'ip already exists',
+          }])
+        }
+      }
     }
 
     if (!chip.numChip) {
@@ -79,6 +96,66 @@ class ChipDomain {
       transaction,
     })
     return chipReturned
+  }
+
+  async updateChipById(id, bodyData, options = {}) {
+    const chip = R.omit(['id'], bodyData)
+
+    const chiphasNumChip = R.has('numChip', chip)
+
+    const chiphasOperadora = R.has('operadora', chip)
+
+    const chiphasIp = R.has('ip', chip)
+
+    const HasIp = R.has('ip', chip)
+
+    let newChip = {}
+
+    if (chiphasNumChip) {
+      newChip = {
+        ...newChip,
+        numChip: R.prop('numChip', chip),
+      }
+    }
+
+    if (HasIp) {
+      if (!chip.ip) {
+        const chipIpExistent = await Chip.findOne({
+          where: { ip: chip.ip },
+        })
+
+        if (chipIpExistent) {
+          throw new FieldValidationError([{
+            field: 'ip',
+            message: 'ip already exists',
+          }])
+        }
+      }
+    }
+
+    if (chiphasOperadora) {
+      newChip = {
+        ...newChip,
+        operadora: R.prop('operadora', chip),
+      }
+    }
+
+    if (chiphasIp) {
+      newChip = {
+        ...newChip,
+        ip: R.prop('ip', chip),
+      }
+    }
+
+    const { transaction = null } = options
+
+    const chipInstance = await this.getById(id, { transaction })
+
+    await chipInstance.update(newChip)
+
+    const chipUpdated = await this.getById(id, { transaction })
+
+    return chipUpdated
   }
 }
 

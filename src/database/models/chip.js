@@ -10,6 +10,7 @@ module.exports = (sequelize) => {
     numChip: {
       type: Sequelize.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         is: [/^[0-9]+$/ig],
       },
