@@ -7,6 +7,7 @@ module.exports = (sequelize) => {
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
+
     numChip: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -15,14 +16,39 @@ module.exports = (sequelize) => {
         is: [/^[0-9]+$/ig],
       },
     },
+
     ip: {
       type: Sequelize.STRING,
-      unique: true,
     },
-    operadora: {
-      type: Sequelize.ENUM('Vivo', 'Porto', 'Claro', 'Oi'),
+
+    lot: {
+      type: Sequelize.STRING,
+    },
+
+    status: {
+      type: Sequelize.ENUM(
+        'stock',
+        'loanToEmployee',
+        'test',
+        'reserved',
+        'inModule',
+        'dead',
+      ),
+      defaultValue: 'stock',
     },
   })
+
+  chip.associate = (models) => {
+    chip.belongsTo(models.chipProvider, {
+      foreignKey: {
+        allowNull: false,
+      },
+    })
+
+    chip.hasMany(models.chipEvent)
+
+    chip.hasMany(models.chipConnectEvent)
+  }
 
   return chip
 }
