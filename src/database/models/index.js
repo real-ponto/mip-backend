@@ -5,6 +5,13 @@ const chipEvent = require('./chip/chipEvent')
 const chipOut = require('./chip/chipOut')
 const chipProvider = require('./chip/chipProvider')
 
+// item escope
+const item = require('./item')
+const itemEvent = require('./item/itemEvent')
+const itemType = require('./item/itemType')
+const itemModel = require('./item/itemModel')
+const itemOut = require('./item/itemOut')
+
 
 const user = require('./user')
 const login = require('./user/login')
@@ -17,6 +24,14 @@ module.exports = [
   chipEvent,
   chipOut,
   chipProvider,
+
+  // item
+  item,
+  itemEvent,
+  itemType,
+  itemModel,
+  itemOut,
+
 
   user,
 
