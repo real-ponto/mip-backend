@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize) => {
-  const chipOut = sequelize.define('chipOut', {
+  const itemOut = sequelize.define('itemOut', {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
@@ -37,13 +37,13 @@ module.exports = (sequelize) => {
     },
   })
 
-  chipOut.associate = (models) => {
-    chipOut.belongsTo(models.chip, {
+  itemOut.associate = (models) => {
+    itemOut.belongsTo(models.item, {
       foreignKey: {
         allowNull: false,
       },
     })
   }
 
-  return chipOut
+  return itemOut
 }
