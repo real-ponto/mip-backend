@@ -38,7 +38,11 @@ module.exports = (sequelize) => {
   })
 
   itemOut.associate = (models) => {
-    itemOut.belongsTo(models.item)
+    itemOut.belongsTo(models.item, {
+      foreignKey: {
+        allowNull: false,
+      },
+    })
   }
 
   return itemOut

@@ -38,7 +38,11 @@ module.exports = (sequelize) => {
   })
 
   chipOut.associate = (models) => {
-    chipOut.belongsTo(models.chip)
+    chipOut.belongsTo(models.chip, {
+      foreignKey: {
+        allowNull: false,
+      },
+    })
   }
 
   return chipOut

@@ -12,14 +12,19 @@ const itemType = require('./item/itemType')
 const itemModel = require('./item/itemModel')
 const itemOut = require('./item/itemOut')
 
+// others escope
+const address = require('./other/address')
+const contact = require('./other/contact')
+
+// company escope
+const company = require('./company')
+const companyGoup = require('./company/companyGroup')
+const companyEvent = require('./company/companyEvent')
 
 const user = require('./user')
 const login = require('./user/login')
 const session = require('./user/session')
 
-// others escope
-const adress = require('./other/adress')
-const contact = require('./other/contact')
 
 module.exports = [
   // chip
@@ -36,13 +41,19 @@ module.exports = [
   itemModel,
   itemOut,
 
+  // others
+  address,
+  contact,
+
+  // company
+  company,
+  companyGoup,
+  companyEvent,
 
   user,
 
   login,
   session,
 
-  // others
-  adress,
-  contact,
+
 ]
