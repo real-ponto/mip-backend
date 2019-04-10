@@ -17,6 +17,10 @@ const user = require('./user')
 const login = require('./user/login')
 const session = require('./user/session')
 
+// others escope
+const adress = require('./other/adress')
+const contact = require('./other/contact')
+
 module.exports = [
   // chip
   chip,
@@ -37,4 +41,8 @@ module.exports = [
 
   login,
   session,
+
+  // others
+  adress,
+  contact,
 ]
