@@ -21,11 +21,14 @@ const company = require('./company')
 const companyGoup = require('./company/companyGroup')
 const companyEvent = require('./company/companyEvent')
 
-// watch
+// watch escope
 const watch = require('./watch')
 const watchEvent = require('./watch/watchEvent')
 const watchConnectEvent = require('./watch/watchConnectEvent')
 
+// modulo escope
+const modulo = require('./modulo')
+const moduloEvent = require('./modulo/moduloEvent')
 
 const user = require('./user')
 const login = require('./user/login')
@@ -60,6 +63,10 @@ module.exports = [
   watch,
   watchEvent,
   watchConnectEvent,
+
+  // modulo
+  modulo,
+  moduloEvent,
 
   user,
 
