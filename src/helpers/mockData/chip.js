@@ -20,13 +20,13 @@ const ipArray = [
 
 const generateChip = (number) => {
   const randomNumber = numberRamdomArray()
-  const userMock = {
+  const chipMock = {
     numChip: R.toString(numberMock()),
     ip: R.prop('ip', ipArray[randomNumber]),
     operadora: R.prop('operadora', ipArray[randomNumber]),
   }
-  userMock.ip = `${userMock.ip}${number}`
-  return userMock
+  chipMock.ip = `${chipMock.ip}${number}`
+  return chipMock
 }
 
 module.exports = {
