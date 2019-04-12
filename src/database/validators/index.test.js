@@ -1,8 +1,9 @@
-const { FieldValidationError } = require('../../../helpers/errors')
+const { FieldValidationError } = require('../../helpers/errors')
 const {
   validatorCpf,
   validatorCnpj,
   validatorNameComplete,
+  validatorNumChip,
 } = require('./')
 
 
@@ -50,6 +51,28 @@ describe('validator', () => {
     test('valid cnpj case 2', () => {
       const testcnpj = () => validatorCnpj('28305117000100')
       expect(testcnpj()).toBe(true)
+    })
+  })
+
+  describe('numChip', () => {
+    test('invalid numChip case 1', () => {
+      const testnumChip = () => validatorNumChip('awda1dwad1dawd55')
+      expect(testnumChip).toThrowError(new FieldValidationError())
+    })
+
+    test('invalid numChip case 2', () => {
+      const testnumChip = () => validatorNumChip('dwa1.131daw.13dawd')
+      expect(testnumChip).toThrowError(new FieldValidationError())
+    })
+
+    test('invalid numChip', () => {
+      const testnumChip = () => validatorNumChip('1234567891411')
+      expect(testnumChip).toThrowError(new FieldValidationError())
+    })
+
+    test('valid numChip', () => {
+      const testnumChip = () => validatorNumChip('1234567891')
+      expect(testnumChip()).toBe(true)
     })
   })
 })

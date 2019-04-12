@@ -2,22 +2,30 @@ const R = require('ramda')
 const { isUUID } = require('validator')
 
 const { FieldValidationError } = require('../../helpers/errors')
-
 const database = require('../../database')
 
 const Chip = database.model('chip')
 
+
 class ChipDomain {
   async createChip(bodyData, options = {}) {
-    const chip = R.omit(['id'], bodyData)
+    const { transaction = null } = options
+    const chip = R.omit(['id', 'status'], bodyData)
 
     const noHasNumChip = R.not(R.has('numChip', chip))
 
-    const noHasOperadora = R.not(R.has('operadora', chip))
+    const noHasLot = R.not(R.has('lot', chip))
 
     const HasIp = R.has('ip', chip)
 
-    if (noHasNumChip) {
+    if (noHasLot || !chip.lot) {
+      throw new FieldValidationError([{
+        field: 'lot',
+        message: 'lot cannot be null',
+      }])
+    }
+
+    if (noHasNumChip || !chip.numChip) {
       throw new FieldValidationError([{
         field: 'numChip',
         message: 'numChip cannot be null',
@@ -39,28 +47,19 @@ class ChipDomain {
       }
     }
 
-    if (!chip.numChip) {
+    const numChip = await Chip.findOne({
+      where: {
+        numChip: chip.numChip,
+      },
+      transaction,
+    })
+
+    if (numChip) {
       throw new FieldValidationError([{
         field: 'numChip',
-        message: 'numChip cannot be null',
+        message: 'numChip already exist',
       }])
     }
-
-    if (noHasOperadora) {
-      throw new FieldValidationError([{
-        field: 'operadora',
-        message: 'operadora cannot be null',
-      }])
-    }
-
-    if (!chip.operadora) {
-      throw new FieldValidationError([{
-        field: 'operadora',
-        message: 'operadora cannot be null',
-      }])
-    }
-
-    const { transaction = null } = options
 
     const optionsForCreate = {
       transaction,
@@ -68,14 +67,17 @@ class ChipDomain {
 
     const chipCreated = await Chip.create(chip, optionsForCreate)
 
-    const chipReturned = await Chip.findByPk(chipCreated.id, {
-      transaction,
-    })
+    const chipReturned = await Chip.findByPk(
+      chipCreated.id, {
+        transaction,
+      },
+    )
 
     return chipReturned
   }
 
-  async getById(id, options = {}) {
+  // eslint-disable-next-line camelcase
+  async chip_GetById(id, options = {}) {
     const { transaction = null } = options
 
     if (!id) {
@@ -98,23 +100,48 @@ class ChipDomain {
     return chipReturned
   }
 
-  async updateChipById(id, bodyData, options = {}) {
+  // eslint-disable-next-line camelcase
+  async chip_updateById(id, bodyData, options = {}) {
+    const { transaction = null } = options
     const chip = R.omit(['id'], bodyData)
 
-    const chiphasNumChip = R.has('numChip', chip)
+    const chipHasNumChip = R.has('numChip', chip)
 
-    const chiphasOperadora = R.has('operadora', chip)
+    const chipHasLot = R.has('lot', chip)
 
-    const chiphasIp = R.has('ip', chip)
+    const chipHasStatus = R.has('status', chip)
+
+    const chipHasIp = R.has('ip', chip)
 
     const HasIp = R.has('ip', chip)
 
     let newChip = {}
 
-    if (chiphasNumChip) {
+    if (chipHasNumChip) {
       newChip = {
         ...newChip,
         numChip: R.prop('numChip', chip),
+      }
+    }
+
+    const numChip = await Chip.findOne({
+      where: {
+        numChip: chip.numChip,
+      },
+      transaction,
+    })
+
+    if (numChip) {
+      throw new FieldValidationError([{
+        field: 'numChip',
+        message: 'numChip already exist',
+      }])
+    }
+
+    if (chipHasStatus) {
+      newChip = {
+        ...newChip,
+        status: R.prop('status', chip),
       }
     }
 
@@ -133,27 +160,25 @@ class ChipDomain {
       }
     }
 
-    if (chiphasOperadora) {
+    if (chipHasLot) {
       newChip = {
         ...newChip,
-        operadora: R.prop('operadora', chip),
+        lot: R.prop('lot', chip),
       }
     }
 
-    if (chiphasIp) {
+    if (chipHasIp) {
       newChip = {
         ...newChip,
         ip: R.prop('ip', chip),
       }
     }
 
-    const { transaction = null } = options
-
-    const chipInstance = await this.getById(id, { transaction })
+    const chipInstance = await this.chip_GetById(id, { transaction })
 
     await chipInstance.update(newChip)
 
-    const chipUpdated = await this.getById(id, { transaction })
+    const chipUpdated = await this.chip_GetById(id, { transaction })
 
     return chipUpdated
   }
