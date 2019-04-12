@@ -17,10 +17,10 @@ module.exports = (sequelize) => {
   })
 
   modulo.associate = (models) => {
-    modulo.hasMany(models.chip, {
-      foreignKey: {
-        allowNull: false,
-      },
+    modulo.hasOne(models.chip, {
+      // foreignKey: {
+      //   allowNull: false,
+      // },
     })
 
     modulo.hasMany(models.watch, {

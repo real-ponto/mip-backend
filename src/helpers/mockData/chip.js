@@ -12,18 +12,24 @@ const numberRamdomArray = (range = {
 }) => faker.random.number(range)
 
 const ipArray = [
-  { ip: '172.40.24.', operadora: 'Claro' },
-  { ip: '10.50.11.', operadora: 'Oi' },
-  { ip: '10.115.11.', operadora: 'Porto' },
-  { ip: '10.26.11.', operadora: 'Vivo' },
+  { ip: '172.40.24.' },
+  { ip: '10.50.11.' },
+  { ip: '10.115.11.' },
+  { ip: '10.26.11.' },
 ]
 
-const generateChip = (number) => {
+const generateChip = (number, id) => {
   const randomNumber = numberRamdomArray()
+
   const chipMock = {
     numChip: R.toString(numberMock()),
-    ip: R.prop('ip', ipArray[randomNumber]),
-    operadora: R.prop('operadora', ipArray[randomNumber]),
+    ip: R.prop(
+      'ip',
+      ipArray[randomNumber],
+    ),
+
+    lot: number,
+    chipProviderId: id,
   }
   chipMock.ip = `${chipMock.ip}${number}`
   return chipMock

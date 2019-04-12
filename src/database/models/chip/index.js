@@ -23,6 +23,7 @@ module.exports = (sequelize) => {
 
     lot: {
       type: Sequelize.STRING,
+      allowNull: false,
     },
 
     status: {
