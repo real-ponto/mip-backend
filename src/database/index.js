@@ -3,6 +3,7 @@ const models = require('./models')
 
 const sequelize = new Sequelize({
   host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT,
   password: process.env.DB_PASSWORD,
   username: process.env.DB_USERNAME,
   database: process.env.DB_DATABASE,
