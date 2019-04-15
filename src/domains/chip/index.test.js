@@ -96,7 +96,7 @@ describe('chip-domain', () => {
     })
 
     test('try add chip omiting lot', async () => {
-      const chipMock = R.omit(['lot'], generateChip())
+      const chipMock = R.omit(['lot'], chipMockGenerated)
 
       await expect(chipDomain.createChip(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
@@ -162,7 +162,6 @@ describe('chip-domain', () => {
 
     test('try update chip by id with ip existent', async () => {
       const chipMock = generateChip('499', provider.id)
-      console.log(chipCreated.ip)
       chipMock.ip = chipCreated.ip
 
       await expect(chipDomain.createChip(chipMock)).rejects
