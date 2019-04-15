@@ -20,8 +20,16 @@ describe('chip-domain', () => {
   })
 
   describe('chipCreateTest', () => {
+    let chipMockGenerated = {}
+    let counter = 200
+
+    beforeEach(() => {
+      chipMockGenerated = generateChip(counter.toString(), provider.id)
+      counter += 1
+    })
+
     test('try add chip with correct date', async () => {
-      const chipMock = generateChip('999', provider.id)
+      const chipMock = chipMockGenerated
 
       const chipCreated = await chipDomain.createChip(chipMock)
 
@@ -32,12 +40,7 @@ describe('chip-domain', () => {
     })
 
     test('try add chip with ip existent', async () => {
-      const chipMock = {
-        numChip: '5313213',
-        ip: '172.40.24.202',
-        lot: 'laercio',
-        chipProviderId: provider.id,
-      }
+      const chipMock = chipMockGenerated
 
       const chipCreated = await chipDomain.createChip(chipMock)
 
@@ -50,27 +53,9 @@ describe('chip-domain', () => {
         }]))
     })
 
-    // test('try add chip with numChip wrong', async () => {
-    //   const chipMock = {
-    //     numChip: '531313wdad',
-    //     ip: '172.40.24.202',
-    //     lot: 'laercio',
-    //     chipProviderId: provider.id,
-    //   }
-
-    //   await expect(chipDomain.createChip(chipMock)).rejects
-    //     .toThrowError(new FieldValidationError([{
-    //       field: 'numChip',
-    //       message: 'numChip cannot be null',
-    //     }]))
-    // })
-
     test('try add chip with numChip null', async () => {
-      const chipMock = {
-        numChip: '',
-        ip: '172.40.24.202',
-        lot: 'laercio',
-      }
+      const chipMock = chipMockGenerated
+      chipMock.numChip = ''
 
       await expect(chipDomain.createChip(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
@@ -80,10 +65,7 @@ describe('chip-domain', () => {
     })
 
     test('try add chip without numChip', async () => {
-      const chipMock = {
-        ip: '172.40.24.202',
-        lot: 'laercio',
-      }
+      const chipMock = R.omit(['numChip'], chipMockGenerated)
 
       await expect(chipDomain.createChip(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
@@ -93,7 +75,7 @@ describe('chip-domain', () => {
     })
 
     test('try add chip omiting numChip', async () => {
-      const chipMock = R.omit(['numChip'], generateChip())
+      const chipMock = R.omit(['numChip'], chipMockGenerated)
 
       await expect(chipDomain.createChip(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
@@ -103,11 +85,8 @@ describe('chip-domain', () => {
     })
 
     test('try add chip with lot null', async () => {
-      const chipMock = {
-        numChip: '13213213',
-        ip: '172.40.24.202',
-        lot: '',
-      }
+      const chipMock = chipMockGenerated
+      chipMock.lot = ''
 
       await expect(chipDomain.createChip(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
@@ -125,26 +104,25 @@ describe('chip-domain', () => {
           message: 'lot cannot be null',
         }]))
     })
+  })
 
-    describe('getChipByIdTest', () => {
-      let chipCreated = null
-      let counter = 1
-      beforeEach(async () => {
-        const chipMock = generateChip(counter, provider.id)
-        counter += 1
-        chipCreated = await chipDomain.createChip(chipMock)
-      })
-
-      test('get chip by id with correct date', async () => {
-        const chipReturned = await chipDomain.chip_GetById(chipCreated.id)
-
-        expect(chipReturned.numChip).toEqual(chipCreated.numChip)
-        expect(chipReturned.ip).toEqual(chipCreated.ip)
-        expect(chipReturned.lot).toEqual(chipCreated.lot)
-        expect(chipReturned.status).toEqual('stock')
-      })
+  describe('getChipByIdTest', () => {
+    let chipMockGenerated = null
+    let counter = 1
+    beforeEach(async () => {
+      const chipMock = generateChip(counter, provider.id)
+      counter += 1
+      chipMockGenerated = await chipDomain.createChip(chipMock)
     })
 
+    test('get chip by id with correct date', async () => {
+      const chipReturned = await chipDomain.chip_GetById(chipMockGenerated.id)
+
+      expect(chipReturned.numChip).toEqual(chipMockGenerated.numChip)
+      expect(chipReturned.ip).toEqual(chipMockGenerated.ip)
+      expect(chipReturned.lot).toEqual(chipMockGenerated.lot)
+      expect(chipReturned.status).toEqual('stock')
+    })
     test('get chip by id equal null', async () => {
       await expect(chipDomain.chip_GetById(null))
         .rejects.toThrowError(new FieldValidationError([{
@@ -152,7 +130,6 @@ describe('chip-domain', () => {
           message: 'id cannot be null',
         }]))
     })
-
     test('get incorrect id', async () => {
       await expect(chipDomain.chip_GetById('eda')).rejects
         .toThrowError(new FieldValidationError([{
@@ -160,73 +137,63 @@ describe('chip-domain', () => {
           message: 'id is invalid',
         }]))
     })
+  })
 
-    describe('updateChipByIdTest', () => {
-      let chipCreated = null
-      let counter = 100
-      beforeEach(async () => {
-        const chipMock = generateChip(counter, provider.id)
-        counter += 1
-        chipCreated = await chipDomain.createChip(chipMock)
-      })
+  describe('updateChipByIdTest', () => {
+    let chipCreated = null
+    let counter = 400
+    beforeEach(async () => {
+      const chipMock = generateChip(counter, provider.id)
+      counter += 1
+      chipCreated = await chipDomain.createChip(chipMock)
+    })
 
-      test('update chip by id with only numChip', async () => {
-        const chipMock = {
-          numChip: '132132132',
-        }
+    test('update chip by id with only numChip', async () => {
+      const chipMock = R.omit(['lot', 'ip', 'id', 'status'], chipCreated)
+      chipMock.numChip = '1234657891'
 
-        const chipUpdate = await chipDomain.chip_updateById(chipCreated.id, chipMock)
+      const chipUpdate = await chipDomain.chip_updateById(chipCreated.id, chipMock)
 
-        expect(chipUpdate.numChip).toEqual(chipMock.numChip)
-        expect(chipUpdate.ip).toEqual(chipCreated.ip)
-        expect(chipUpdate.lot).toEqual(chipCreated.lot)
-        expect(chipUpdate.status).toEqual(chipCreated.status)
-      })
+      expect(chipUpdate.numChip).toEqual(chipMock.numChip)
+      expect(chipUpdate.ip).toEqual(chipCreated.ip)
+      expect(chipUpdate.lot).toEqual(chipCreated.lot)
+      expect(chipUpdate.status).toEqual(chipCreated.status)
+    })
 
-      test('try update chip by id with ip existent', async () => {
-        const chipMock = {
-          numChip: '165465',
-          ip: '172.40.24.202',
-          lot: '13232132',
-          chipProviderId: provider.id,
-        }
+    test('try update chip by id with ip existent', async () => {
+      const chipMock = generateChip('499', provider.id)
+      console.log(chipCreated.ip)
+      chipMock.ip = chipCreated.ip
 
-        chipCreated = await chipDomain.createChip(chipMock)
+      await expect(chipDomain.createChip(chipMock)).rejects
+        .toThrowError(new FieldValidationError([{
+          field: 'ip',
+          message: 'ip already exist',
+        }]))
+    })
 
-        await expect(chipCreated.ip).toEqual(chipMock.ip)
+    test('update chip by id with only lot', async () => {
+      const chipMock = R.omit(['numChip', 'ip', 'id', 'status'], chipCreated)
+      chipMock.lot = 'laercio'
 
-        await expect(chipDomain.createChip(chipMock)).rejects
-          .toThrowError(new FieldValidationError([{
-            field: 'ip',
-            message: 'ip already exist',
-          }]))
-      })
+      const chipUpdate = await chipDomain.chip_updateById(chipCreated.id, chipMock)
 
-      test('update chip by id with only lot', async () => {
-        const chipMock = {
-          lot: '265',
-        }
+      expect(chipUpdate.numChip).toEqual(chipCreated.numChip)
+      expect(chipUpdate.ip).toEqual(chipCreated.ip)
+      expect(chipUpdate.lot).toEqual(chipMock.lot)
+      expect(chipUpdate.status).toEqual(chipCreated.status)
+    })
 
-        const chipUpdate = await chipDomain.chip_updateById(chipCreated.id, chipMock)
+    test('update chip by id with only ip', async () => {
+      const chipMock = R.omit(['numChip', 'numChip', 'id', 'status'], chipCreated)
+      chipMock.ip = '1234657891'
 
-        expect(chipUpdate.numChip).toEqual(chipCreated.numChip)
-        expect(chipUpdate.ip).toEqual(chipCreated.ip)
-        expect(chipUpdate.lot).toEqual(chipMock.lot)
-        expect(chipUpdate.status).toEqual(chipCreated.status)
-      })
+      const chipUpdate = await chipDomain.chip_updateById(chipCreated.id, chipMock)
 
-      test('update chip by id with only ip', async () => {
-        const chipMock = {
-          ip: '152.202.21.45',
-        }
-
-        const chipUpdate = await chipDomain.chip_updateById(chipCreated.id, chipMock)
-
-        expect(chipUpdate.numChip).toEqual(chipCreated.numChip)
-        expect(chipUpdate.ip).toEqual(chipMock.ip)
-        expect(chipUpdate.lot).toEqual(chipCreated.lot)
-        expect(chipUpdate.status).toEqual(chipCreated.status)
-      })
+      expect(chipUpdate.numChip).toEqual(chipCreated.numChip)
+      expect(chipUpdate.ip).toEqual(chipMock.ip)
+      expect(chipUpdate.lot).toEqual(chipCreated.lot)
+      expect(chipUpdate.status).toEqual(chipCreated.status)
     })
   })
 })

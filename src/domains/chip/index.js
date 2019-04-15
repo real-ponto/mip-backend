@@ -33,11 +33,10 @@ class ChipDomain {
     }
 
     if (HasIp) {
-      if (!chip.ip) {
+      if (chip.ip) {
         const chipIpExistent = await Chip.findOne({
           where: { ip: chip.ip },
         })
-
         if (chipIpExistent) {
           throw new FieldValidationError([{
             field: 'ip',
