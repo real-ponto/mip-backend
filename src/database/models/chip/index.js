@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const { validatorNumChip } = require('../../validators')
 
 module.exports = (sequelize) => {
   const chip = sequelize.define('chip', {
@@ -13,7 +14,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
       validate: {
-        is: [/^[0-9]+$/ig],
+        isNumChipValid(value) { validatorNumChip(value) },
       },
     },
 
@@ -23,6 +24,7 @@ module.exports = (sequelize) => {
 
     lot: {
       type: Sequelize.STRING,
+      allowNull: false,
     },
 
     status: {

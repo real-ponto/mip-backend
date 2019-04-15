@@ -1,6 +1,6 @@
 const Cpf = require('@fnando/cpf/dist/node')
 const Cnpj = require('@fnando/cnpj/dist/node')
-const { FieldValidationError } = require('../../../helpers/errors')
+const { FieldValidationError } = require('../../helpers/errors')
 
 const validatorCpf = (cpf) => {
   if (!Cpf.isValid(cpf)) {
@@ -22,10 +22,19 @@ const validatorNameComplete = (name) => {
   }
   return true
 }
-
+const validatorNumChip = (numChip) => {
+  if (!numChip.match(/^[0-9]+$/g)) {
+    throw new FieldValidationError([{ name: 'numChip', message: 'numChip is only numbers' }])
+  }
+  if (numChip.length !== 10) {
+    throw new FieldValidationError([{ name: 'numChip', message: 'need 10 numbers' }])
+  }
+  return true
+}
 
 module.exports = {
   validatorCpf,
   validatorCnpj,
   validatorNameComplete,
+  validatorNumChip,
 }
