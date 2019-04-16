@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize) => {
-  const item = sequelize.define('item', {
+  const moduloItem = sequelize.define('moduloItem', {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
     numSerial: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: 'item',
+      unique: 'moduloItem',
     },
 
     lot: {
@@ -31,21 +31,21 @@ module.exports = (sequelize) => {
     },
   })
 
-  item.associate = (models) => {
-    item.belongsTo(models.itemType, {
+  moduloItem.associate = (models) => {
+    moduloItem.belongsTo(models.moduloItemType, {
       foreignKey: {
         allowNull: false,
       },
     })
 
-    item.belongsTo(models.itemModel, {
+    moduloItem.belongsTo(models.moduloItemModel, {
       foreignKey: {
         allowNull: false,
       },
     })
 
-    item.hasMany(models.itemEvent)
+    moduloItem.hasMany(models.moduloItemEvent)
   }
 
-  return item
+  return moduloItem
 }

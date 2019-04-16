@@ -46,7 +46,7 @@ class UserDomain {
     }
     const userCreated = await User.create(userFormatted, optionsForCreate)
 
-    const userReturned = await User.findById(userCreated.id, {
+    const userReturned = await User.findByPk(userCreated.id, {
       attributes: { exclude: ['loginId'] },
     })
 

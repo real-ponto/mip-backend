@@ -122,20 +122,20 @@ class ChipDomain {
         ...newChip,
         numChip: R.prop('numChip', chip),
       }
-    }
 
-    const numChip = await Chip.findOne({
-      where: {
-        numChip: chip.numChip,
-      },
-      transaction,
-    })
+      const numChip = await Chip.findOne({
+        where: {
+          numChip: chip.numChip,
+        },
+        transaction,
+      })
 
-    if (numChip) {
-      throw new FieldValidationError([{
-        field: 'numChip',
-        message: 'numChip already exist',
-      }])
+      if (numChip) {
+        throw new FieldValidationError([{
+          field: 'numChip',
+          message: 'numChip already exist',
+        }])
+      }
     }
 
     if (chipHasStatus) {

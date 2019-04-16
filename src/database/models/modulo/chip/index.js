@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const { validatorNumChip } = require('../../validators')
+const { validatorNumChip } = require('../../../validators')
 
 module.exports = (sequelize) => {
   const chip = sequelize.define('chip', {

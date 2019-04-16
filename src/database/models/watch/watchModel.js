@@ -1,24 +1,25 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize) => {
-  const itemType = sequelize.define('itemType', {
+  const watchModel = sequelize.define('watchModel', {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
 
-    type: {
+    mark: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
+      unique: 'watchMark',
     },
 
-    isRequired: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
+    model: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: 'watchMark',
     },
   })
 
-  return itemType
+  return watchModel
 }

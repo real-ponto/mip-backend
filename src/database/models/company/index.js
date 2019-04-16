@@ -14,10 +14,15 @@ module.exports = (sequelize) => {
       unique: true,
     },
 
-    contractNumber: {
+    name: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
+    },
+
+    stateRegistration: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: 'isento',
     },
 
     cnpj: {
@@ -25,7 +30,6 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
     },
-
   })
 
   company.associate = (models) => {
@@ -35,17 +39,17 @@ module.exports = (sequelize) => {
       },
     })
 
-    company.belongsTo(models.contact, {
+    company.belongsToMany(models.contact, {
+      through: 'companyContact',
+    })
+
+    company.belongsTo(models.company, {
       foreignKey: {
         allowNull: false,
+        defaultValue: null,
       },
     })
 
-    company.belongsTo(models.companyGroup, {
-      foreignKey: {
-        allowNull: false,
-      },
-    })
 
     company.hasMany(models.companyEvent)
   }

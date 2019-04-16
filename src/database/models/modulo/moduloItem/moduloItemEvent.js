@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize) => {
-  const itemEvent = sequelize.define('itemEvent', {
+  const moduloItemEvent = sequelize.define('moduloItemEvent', {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
@@ -21,5 +21,5 @@ module.exports = (sequelize) => {
 
   })
 
-  return itemEvent
+  return moduloItemEvent
 }
