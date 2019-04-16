@@ -1,4 +1,4 @@
-const { FieldValidationError } = require('../../../helpers/errors')
+const { FieldValidationError } = require('../../../../helpers/errors')
 const ChipProviderDomain = require('./')
 
 const chipProviderDomain = new ChipProviderDomain()

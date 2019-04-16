@@ -1,9 +1,9 @@
 const R = require('ramda')
 const { isUUID } = require('validator')
 
-const { FieldValidationError } = require('../../../helpers/errors')
+const { FieldValidationError } = require('../../../../helpers/errors')
 
-const database = require('../../../database')
+const database = require('../../../../database')
 
 const ChipProvider = database.model('chipProvider')
 

@@ -1,10 +1,10 @@
 const R = require('ramda')
 
-const { FieldValidationError } = require('../../helpers/errors')
-const { generateChip } = require('../../helpers/mockData/chip')
+const { FieldValidationError } = require('../../../helpers/errors')
+const { generateChip } = require('../../../helpers/mockData/chip')
 const ChipDomain = require('./')
 
-const ChipProvider = require('../../domains/chip/chipProvider')
+const ChipProvider = require('./chipProvider')
 
 const chipProvider = new ChipProvider()
 
