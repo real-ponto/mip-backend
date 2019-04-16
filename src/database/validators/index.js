@@ -32,9 +32,21 @@ const validatorNumChip = (numChip) => {
   return true
 }
 
+const validatorPhoneCellOrTelphone = (phone) => {
+  if (phone.length !== 11 && phone.length !== 10) {
+    throw new FieldValidationError([{ name: 'phone', message: 'phone is invalid' }])
+  }
+  const prefix = phone.substr(2, 1)
+  if (phone.length === 11 && prefix !== '9') {
+    throw new FieldValidationError([{ name: 'phone', message: 'cell phone is invalid' }])
+  }
+  return true
+}
+
 module.exports = {
   validatorCpf,
   validatorCnpj,
   validatorNameComplete,
   validatorNumChip,
+  validatorPhoneCellOrTelphone,
 }

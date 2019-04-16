@@ -80,6 +80,14 @@ describe('contact-domain', () => {
         }]))
     })
 
+    test('try add contact with phone wrong', async () => {
+      const chipMock = contactMockGenerated
+      chipMock.phone = '132awdawd31daw3d1'
+
+      await expect(contactDomain.contact_Create(chipMock)).rejects
+        .toThrowError()
+    })
+
     test('try add contact omiting phone', async () => {
       const chipMock = R.omit(['phone'], contactMockGenerated)
 
@@ -88,6 +96,88 @@ describe('contact-domain', () => {
           field: 'phone',
           message: 'phone cannot be null',
         }]))
+    })
+  })
+
+  describe('getContactByIdTest', () => {
+    let chipMockGenerated = null
+    let counter = 100
+
+    beforeEach(async () => {
+      const chipMock = generateContact(counter.toString())
+      counter += 1
+      chipMockGenerated = await contactDomain.contact_Create(chipMock)
+    })
+
+    test('get contact by id with correct date', async () => {
+      const contactReturned = await contactDomain.contact_GetById(chipMockGenerated.id)
+
+      expect(contactReturned.name).toEqual(chipMockGenerated.name)
+      expect(contactReturned.email).toEqual(chipMockGenerated.email)
+      expect(contactReturned.position).toEqual(chipMockGenerated.position)
+      expect(contactReturned.phone).toEqual(chipMockGenerated.phone)
+    })
+
+    test('get contact by id equal null', async () => {
+      await expect(contactDomain.contact_GetById(null))
+        .rejects.toThrowError(new FieldValidationError([{
+          field: 'id',
+          message: 'id cannot be null',
+        }]))
+    })
+
+    test('get contact with incorrect id', async () => {
+      await expect(contactDomain.contact_GetById('uhul')).rejects
+        .toThrowError(new FieldValidationError([{
+          field: 'id',
+          message: 'id is invalid',
+        }]))
+    })
+  })
+
+  describe('update contact by id', () => {
+    let contactCreated = null
+    let counter = 300
+    beforeEach(async () => {
+      const contactMock = generateContact(counter.toString())
+      counter += 1
+      contactCreated = await contactDomain.contact_Create(contactMock)
+    })
+
+    test('update contact by id with only name', async () => {
+      const contactMock = R.omit(['email', 'position', 'phone'], contactCreated)
+      contactMock.name = 'stain'
+
+      const contactUpdate = await contactDomain.contact_UpdateById(contactCreated.id, contactMock)
+
+      expect(contactUpdate.name).toEqual(contactMock.name)
+      expect(contactUpdate.email).toEqual(contactCreated.email)
+      expect(contactUpdate.position).toEqual(contactCreated.position)
+      expect(contactUpdate.phone).toEqual(contactCreated.phone)
+    })
+
+    test('update conntact by id with only email', async () => {
+      const contactMock = R.omit(['name', 'position', 'phone'], contactCreated)
+      contactMock.email = 'guilherme@guilherme.com'
+
+      const contactUpdate = await contactDomain.contact_UpdateById(contactCreated.id, contactMock)
+
+      expect(contactUpdate.name).toEqual(contactCreated.name)
+      expect(contactUpdate.position).toEqual(contactCreated.position)
+      expect(contactUpdate.email).toEqual(contactMock.email)
+      expect(contactUpdate.phone).toEqual(contactCreated.phone)
+    })
+
+    test('update conntact by id with only phone', async () => {
+      const contactMock = R.omit(['name', 'position', 'email'], contactCreated)
+      contactMock.phone = '11957712340'
+
+      const contactUpdate = await contactDomain.contact_UpdateById(contactCreated.id, contactMock)
+
+      expect(contactUpdate.name).toEqual(contactCreated.name)
+      expect(contactUpdate.position).toEqual(contactCreated.position)
+      expect(contactUpdate.email).toEqual(contactCreated.email)
+      expect(contactUpdate.phone).toEqual(contactMock.phone)
     })
   })
 })

@@ -8,7 +8,8 @@ const Chip = database.model('chip')
 
 
 class ChipDomain {
-  async createChip(bodyData, options = {}) {
+  // eslint-disable-next-line camelcase
+  async chip_Create(bodyData, options = {}) {
     const { transaction = null } = options
     const chip = R.omit(['id', 'status'], bodyData)
 
