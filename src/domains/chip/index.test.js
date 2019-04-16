@@ -31,7 +31,7 @@ describe('chip-domain', () => {
     test('try add chip with correct date', async () => {
       const chipMock = chipMockGenerated
 
-      const chipCreated = await chipDomain.createChip(chipMock)
+      const chipCreated = await chipDomain.chip_Create(chipMock)
 
       expect(chipCreated.lot).toEqual(chipMock.lot)
       expect(chipCreated.numChip).toEqual(chipMock.numChip)
@@ -42,11 +42,11 @@ describe('chip-domain', () => {
     test('try add chip with ip existent', async () => {
       const chipMock = chipMockGenerated
 
-      const chipCreated = await chipDomain.createChip(chipMock)
+      const chipCreated = await chipDomain.chip_Create(chipMock)
 
       await expect(chipCreated.ip).toEqual(chipMock.ip)
 
-      await expect(chipDomain.createChip(chipMock)).rejects
+      await expect(chipDomain.chip_Create(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
           field: 'ip',
           message: 'ip already exist',
@@ -57,7 +57,7 @@ describe('chip-domain', () => {
       const chipMock = chipMockGenerated
       chipMock.numChip = ''
 
-      await expect(chipDomain.createChip(chipMock)).rejects
+      await expect(chipDomain.chip_Create(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
           field: 'numChip',
           message: 'numChip cannot be null',
@@ -67,7 +67,7 @@ describe('chip-domain', () => {
     test('try add chip without numChip', async () => {
       const chipMock = R.omit(['numChip'], chipMockGenerated)
 
-      await expect(chipDomain.createChip(chipMock)).rejects
+      await expect(chipDomain.chip_Create(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
           field: 'numChip',
           message: 'numChip cannot be null',
@@ -77,7 +77,7 @@ describe('chip-domain', () => {
     test('try add chip omiting numChip', async () => {
       const chipMock = R.omit(['numChip'], chipMockGenerated)
 
-      await expect(chipDomain.createChip(chipMock)).rejects
+      await expect(chipDomain.chip_Create(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
           field: 'numChip',
           message: 'numChip cannot be null',
@@ -88,7 +88,7 @@ describe('chip-domain', () => {
       const chipMock = chipMockGenerated
       chipMock.lot = ''
 
-      await expect(chipDomain.createChip(chipMock)).rejects
+      await expect(chipDomain.chip_Create(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
           field: 'lot',
           message: 'lot cannot be null',
@@ -96,9 +96,9 @@ describe('chip-domain', () => {
     })
 
     test('try add chip omiting lot', async () => {
-      const chipMock = R.omit(['lot'], generateChip())
+      const chipMock = R.omit(['lot'], chipMockGenerated)
 
-      await expect(chipDomain.createChip(chipMock)).rejects
+      await expect(chipDomain.chip_Create(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
           field: 'lot',
           message: 'lot cannot be null',
@@ -112,7 +112,7 @@ describe('chip-domain', () => {
     beforeEach(async () => {
       const chipMock = generateChip(counter, provider.id)
       counter += 1
-      chipMockGenerated = await chipDomain.createChip(chipMock)
+      chipMockGenerated = await chipDomain.chip_Create(chipMock)
     })
 
     test('get chip by id with correct date', async () => {
@@ -145,7 +145,7 @@ describe('chip-domain', () => {
     beforeEach(async () => {
       const chipMock = generateChip(counter, provider.id)
       counter += 1
-      chipCreated = await chipDomain.createChip(chipMock)
+      chipCreated = await chipDomain.chip_Create(chipMock)
     })
 
     test('update chip by id with only numChip', async () => {
@@ -162,10 +162,9 @@ describe('chip-domain', () => {
 
     test('try update chip by id with ip existent', async () => {
       const chipMock = generateChip('499', provider.id)
-      console.log(chipCreated.ip)
       chipMock.ip = chipCreated.ip
 
-      await expect(chipDomain.createChip(chipMock)).rejects
+      await expect(chipDomain.chip_Create(chipMock)).rejects
         .toThrowError(new FieldValidationError([{
           field: 'ip',
           message: 'ip already exist',
