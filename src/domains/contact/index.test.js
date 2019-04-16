@@ -138,6 +138,7 @@ describe('contact-domain', () => {
   describe('update contact by id', () => {
     let contactCreated = null
     let counter = 300
+
     beforeEach(async () => {
       const contactMock = generateContact(counter.toString())
       counter += 1
