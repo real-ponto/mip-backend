@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize) => {
-  const itemModel = sequelize.define('itemModel', {
+  const moduloItemModel = sequelize.define('moduloItemModel', {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
@@ -11,21 +11,21 @@ module.exports = (sequelize) => {
     mark: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: 'itemMark',
+      unique: 'moduloItemMark',
     },
 
     model: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: 'itemMark',
+      unique: 'moduloItemMark',
     },
 
     seller: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: 'itemMark',
+      unique: 'moduloItemMark',
     },
   })
 
-  return itemModel
+  return moduloItemModel
 }

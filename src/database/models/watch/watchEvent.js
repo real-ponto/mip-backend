@@ -13,6 +13,11 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
 
+    description: {
+      type: Sequelize.TEXT,
+      allowNull: false,
+    },
+
     date: {
       allowNull: false,
       defaultValue: Sequelize.NOW,

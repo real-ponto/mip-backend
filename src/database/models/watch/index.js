@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
 
-    razaoSocial: {
+    serialNumber: {
       type: Sequelize.STRING,
       allowNull: false,
       unique: true,
@@ -29,15 +29,15 @@ module.exports = (sequelize) => {
   })
 
   watch.associate = (models) => {
-    watch.belongsTo(models.address, {
+    watch.belongsTo(models.watchModel, {
       foreignKey: {
         allowNull: false,
       },
     })
 
-    watch.belongsTo(models.contact, {
+    watch.belongsTo(models.companyUnit, {
       foreignKey: {
-        allowNull: false,
+        defaultValue: null,
       },
     })
 
@@ -48,8 +48,6 @@ module.exports = (sequelize) => {
     })
 
     watch.hasMany(models.watchEvent)
-
-    watch.hasMany(models.watchConnectEvent)
   }
 
 
