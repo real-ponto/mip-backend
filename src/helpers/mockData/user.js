@@ -5,9 +5,6 @@ const generateUser = (username) => {
     name: faker.name.findName(),
     username,
     email: `${username}@test.com`,
-    login: {
-      password: username,
-    },
   }
   return userMock
 }
