@@ -15,22 +15,31 @@ const watchEvent = require('./watch/watchEvent')
 const watchModel = require('./watch/watchModel')
 
 // modulo escope
-const modulo = require('./modulo')
-const moduloEvent = require('./modulo/moduloEvent')
-
-// chip escope
 const chip = require('./modulo/chip')
 const chipConnectEvent = require('./modulo/chip/chipConnectEvent')
 const chipEvent = require('./modulo/chip/chipEvent')
 const chipOut = require('./modulo/chip/chipOut')
 const chipProvider = require('./modulo/chip/chipProvider')
-
-// moduloItem escope
+const modulo = require('./modulo')
+const moduloEvent = require('./modulo/moduloEvent')
 const moduloItem = require('./modulo/moduloItem')
 const moduloItemEvent = require('./modulo/moduloItem/moduloItemEvent')
-const moduloItemType = require('./modulo/moduloItem/moduloItemType')
 const moduloItemModel = require('./modulo/moduloItem/moduloItemModel')
 const moduloItemOut = require('./modulo/moduloItem/moduloItemOut')
+const moduloItemType = require('./modulo/moduloItem/moduloItemType')
+
+// product escope
+const product = require('./product')
+const productMark = require('./product/productMark')
+const productType = require('./product/productType')
+const purchase = require('./product/purchase')
+const purchaseOrder = require('./product/purchase/purchaseOrder')
+const purchaseProduct = require('./product/purchase/purchaseProduct')
+const purchaseSeller = require('./product/purchase/purchaseSeller')
+const stock = require('./product/stock')
+const stockBase = require('./product/stock/stockBase')
+const stockLocality = require('./product/stock/stockLocality')
+
 
 const user = require('./user')
 const login = require('./user/login')
@@ -55,22 +64,30 @@ module.exports = [
   watchModel,
 
   // modulo
-  modulo,
-  moduloEvent,
-
-  // chip
   chip,
   chipConnectEvent,
   chipEvent,
   chipOut,
   chipProvider,
-
-  // moduloItem
+  modulo,
+  moduloEvent,
   moduloItem,
   moduloItemEvent,
   moduloItemType,
   moduloItemModel,
   moduloItemOut,
+
+  // product
+  product,
+  productMark,
+  productType,
+  purchase,
+  purchaseOrder,
+  purchaseProduct,
+  purchaseSeller,
+  stock,
+  stockBase,
+  stockLocality,
 
   user,
 
