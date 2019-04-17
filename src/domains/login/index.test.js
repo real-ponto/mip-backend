@@ -19,7 +19,7 @@ describe('login-domain', () => {
     beforeEach(async () => {
       const userMock = generateUser(`login_domain${counter}`)
       counter += 1
-      userCreated = await userDomain.createUser(userMock)
+      userCreated = await userDomain.user_Create(userMock)
     })
 
     test('try login with correct account', async () => {
@@ -70,7 +70,7 @@ describe('login-domain', () => {
     beforeEach(async () => {
       const userMock = generateUser(`logout_domain${counter}`)
       counter += 1
-      const userCreated = await userDomain.createUser(userMock)
+      const userCreated = await userDomain.user_Create(userMock)
 
       const getUserLoginMock = R.applySpec({
         username: R.prop('username'),
@@ -132,7 +132,7 @@ describe('Session Domains Tests', () => {
   beforeEach(async () => {
     const userMock = generateUser(`session_domain${counter}`)
     counter += 1
-    const userCreated = await userDomain.createUser(userMock)
+    const userCreated = await userDomain.user_Create(userMock)
     const getUserLoginMock = R.applySpec({
       username: R.prop('username'),
       password: R.prop('username'),
