@@ -27,6 +27,8 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
     })
+
+    product.hasMany(models.productEvent)
   }
 
   return product

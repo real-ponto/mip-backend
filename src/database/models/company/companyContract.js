@@ -8,50 +8,17 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
 
-    contractNumber: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-
-    active: {
-      defaultValue: true,
-      type: Sequelize.BOOLEAN,
-    },
-
-    oweMoney: {
-      defaultValue: false,
-      type: Sequelize.BOOLEAN,
-    },
-
-    dateInitial: {
-      allowNull: false,
-      defaultValue: Sequelize.NOW,
-      type: Sequelize.DATE,
-    },
-
-    payDay: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-
-    subsequent: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
-      allowNull: false,
-    },
-
-
   })
   companyContract.associate = (models) => {
-    companyContract.belongsTo(models.companyGroup, {
+    companyContract.belongsTo(models.company, {
       foreignKey: {
         allowNull: false,
       },
     })
-    companyContract.belongsTo(models.company, {
+
+    companyContract.belongsTo(models.contractClient, {
       foreignKey: {
         allowNull: false,
-        unique: true,
       },
     })
   }

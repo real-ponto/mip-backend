@@ -1,29 +1,25 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize) => {
-  const productType = sequelize.define('productType', {
-
+  const stockLoanEvent = sequelize.define('stockLoanEvent', {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
 
-    subcategory: {
+    description: {
       type: Sequelize.STRING,
       allowNull: false,
     },
 
-    category: {
-      type: Sequelize.ENUM(
-        'Equipamento',
-        'Software',
-        'Assesório',
-        'Peça',
-        'Outro',
-      ),
+    date: {
+      allowNull: false,
+      defaultValue: Sequelize.NOW,
+      type: Sequelize.DATE,
     },
+
   })
 
-  return productType
+  return stockLoanEvent
 }

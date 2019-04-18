@@ -26,6 +26,7 @@ module.exports = (sequelize) => {
   purchaseOrder.associate = (models) => {
     purchaseOrder.belongsTo(models.user, {
       foreignKey: {
+        name: 'requesterId',
         allowNull: false,
       },
     })

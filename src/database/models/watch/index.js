@@ -35,12 +35,6 @@ module.exports = (sequelize) => {
       },
     })
 
-    watch.belongsTo(models.companyUnit, {
-      foreignKey: {
-        defaultValue: null,
-      },
-    })
-
     watch.belongsTo(models.company, {
       foreignKey: {
         allowNull: false,

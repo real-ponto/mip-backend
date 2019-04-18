@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize) => {
-  const productType = sequelize.define('productType', {
+  const contractServicesTypes = sequelize.define('contractServicesTypes', {
 
     id: {
       type: Sequelize.UUID,
@@ -14,16 +14,16 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
 
-    category: {
-      type: Sequelize.ENUM(
-        'Equipamento',
-        'Software',
-        'Assesório',
-        'Peça',
-        'Outro',
-      ),
+    type: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+
+    pricingSuggested: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
   })
 
-  return productType
+  return contractServicesTypes
 }
