@@ -4,6 +4,7 @@ const {
   validatorCnpj,
   validatorNameComplete,
   validatorNumChip,
+  validatorIpUrlorNull,
 } = require('./')
 
 
@@ -73,6 +74,38 @@ describe('validator', () => {
     test('valid numChip', () => {
       const testnumChip = () => validatorNumChip('1234567891')
       expect(testnumChip()).toBe(true)
+    })
+  })
+
+  describe('validatorIpUrlorNull', () => {
+    test('invalid url', () => {
+      const testurl = () => validatorIpUrlorNull('ola')
+      expect(testurl).toThrowError(new FieldValidationError())
+    })
+
+    test('valid url', () => {
+      const testurl = () => validatorIpUrlorNull('https://www.youtube.com')
+      expect(testurl()).toBe(true)
+    })
+
+    test('invalid ip', () => {
+      const testip = () => validatorIpUrlorNull('1dwadw.dwadwa.1dwad.daw1d')
+      expect(testip).toThrowError(new FieldValidationError())
+    })
+
+    test('valid ip', () => {
+      const testip = () => validatorIpUrlorNull('192.168.0.145')
+      expect(testip()).toBe(true)
+    })
+
+    test('invalid ip', () => {
+      const testnull = () => validatorIpUrlorNull('djawd')
+      expect(testnull).toThrowError(new FieldValidationError())
+    })
+
+    test('valid ip', () => {
+      const testnull = () => validatorIpUrlorNull(null)
+      expect(testnull()).toBe(true)
     })
   })
 })

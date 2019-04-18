@@ -1,3 +1,4 @@
+const R = require('ramda')
 const Cpf = require('@fnando/cpf/dist/node')
 const Cnpj = require('@fnando/cnpj/dist/node')
 const { FieldValidationError } = require('../../helpers/errors')
@@ -43,10 +44,27 @@ const validatorPhoneCellOrTelphone = (phone) => {
   return true
 }
 
+const validatorIpUrlorNull = (value) => {
+  const isNull = R.isNil(value)
+
+  if (isNull) return true
+
+  const isIp = value.match(/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/g)
+  // eslint-disable-next-line no-useless-escape
+  const isUrl = value.match(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/g)
+
+
+  if (!(isIp || isUrl || isNull)) {
+    throw new FieldValidationError([{ name: 'ip', message: 'ip is invalid' }])
+  }
+  return true
+}
+
 module.exports = {
   validatorCpf,
   validatorCnpj,
   validatorNameComplete,
   validatorNumChip,
   validatorPhoneCellOrTelphone,
+  validatorIpUrlorNull,
 }
