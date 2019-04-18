@@ -8,15 +8,30 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
 
+    type: {
+      type: Sequelize.ENUM(
+        'master',
+        'branch',
+        'unit',
+      ),
+    },
+
     razaoSocial: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
+      // unique: true,
     },
 
     name: {
       type: Sequelize.STRING,
       allowNull: false,
+      // unique: true,
+    },
+
+    nickname: { // name that will show in cards
+      type: Sequelize.STRING,
+      allowNull: false,
+      // unique: true,
     },
 
     stateRegistration: {
@@ -28,7 +43,7 @@ module.exports = (sequelize) => {
     cnpj: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
+      // unique: true,
     },
   })
 
@@ -45,11 +60,15 @@ module.exports = (sequelize) => {
 
     company.belongsTo(models.company, {
       foreignKey: {
-        allowNull: false,
         defaultValue: null,
       },
     })
 
+    company.belongsTo(models.companyGroup, {
+      foreignKey: {
+        allowNull: false,
+      },
+    })
 
     company.hasMany(models.companyEvent)
   }

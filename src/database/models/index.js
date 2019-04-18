@@ -7,7 +7,9 @@ const company = require('./company')
 const companyContract = require('./company/companyContract')
 const companyGroup = require('./company/companyGroup')
 const companyEvent = require('./company/companyEvent')
-const companyUnit = require('./company/companyUnit')
+const contractClient = require('./company/contract/contractClient')
+const contractItem = require('./company/contract/contractItem')
+const contractServicesTypes = require('./company/contract/contractServicesTypes')
 
 // watch escope
 const watch = require('./watch')
@@ -30,6 +32,7 @@ const moduloItemType = require('./modulo/moduloItem/moduloItemType')
 
 // product escope
 const product = require('./product')
+const productEvent = require('./product/productEvent')
 const productMark = require('./product/productMark')
 const productType = require('./product/productType')
 const purchase = require('./product/purchase')
@@ -56,7 +59,9 @@ module.exports = [
   companyContract,
   companyGroup,
   companyEvent,
-  companyUnit,
+  contractClient,
+  contractItem,
+  contractServicesTypes,
 
   // watch
   watch,
@@ -79,6 +84,7 @@ module.exports = [
 
   // product
   product,
+  productEvent,
   productMark,
   productType,
   purchase,
