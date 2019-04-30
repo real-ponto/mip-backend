@@ -5,6 +5,7 @@ const cors = require('cors')
 const logger = require('morgan')
 const databaseHelper = require('./helpers/database')
 const errorFormatter = require('./helpers/errors/formatter')
+const loginRoute = require('./routes/login')
 
 const app = Express()
 // const authRoute = require('./routes/auth')
@@ -19,6 +20,8 @@ app.use(logger('dev'))
 app.use(cors())
 app.use(Express.static('public'))
 app.use(bodyParser.json())
+
+app.use('/api', loginRoute)
 // app.post('/contract-upload', uploadMiddleware('file', 'temporary', { isTemp: true }))
 
 // app.use(unprotectedRoute)

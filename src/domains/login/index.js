@@ -40,7 +40,28 @@ class LoginDomain {
       { transaction },
     )
 
-    return session
+    const user = await User.findByPk(
+      login.user.id,
+      {
+        transaction,
+        attributes: [
+          'id',
+          'name',
+          'username',
+          'email',
+        ],
+      },
+    )
+
+    const response = {
+      token: session.id,
+      userId: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+    }
+
+    return response
   }
 
   async logout(sessionId) {
