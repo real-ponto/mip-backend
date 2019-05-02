@@ -21,7 +21,7 @@ app.use(cors())
 app.use(Express.static('public'))
 app.use(bodyParser.json())
 
-app.use('/api', loginRoute)
+app.use('/oapi', loginRoute)
 // app.post('/contract-upload', uploadMiddleware('file', 'temporary', { isTemp: true }))
 
 // app.use(unprotectedRoute)
