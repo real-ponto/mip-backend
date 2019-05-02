@@ -19,7 +19,7 @@ describe('/login', () => {
       password: userMock.username,
     }
 
-    const response = await request().post('/api/login', loginBody)
+    const response = await request().post('/oapi/login', loginBody)
 
     expect(response.statusCode).toBe(200)
     expect(response.body.username).toBe(loginBody.username)
@@ -35,7 +35,7 @@ describe('/login', () => {
       password: userMock.username,
     }
 
-    const response = await request().post('/api/login', loginBody)
+    const response = await request().post('/oapi/login', loginBody)
 
     expect(response.statusCode).toBe(401)
     expect(response.body.name).toBe('User UNAUTHORIZED')
@@ -47,7 +47,7 @@ describe('/login', () => {
       username: 'incorrectpass',
     }
 
-    const response = await request().post('/api/login', loginBody)
+    const response = await request().post('/oapi/login', loginBody)
 
     expect(response.statusCode).toBe(401)
     expect(response.body.name).toBe('User UNAUTHORIZED')
@@ -59,7 +59,7 @@ describe('/login', () => {
       username: '',
     }
 
-    const response = await request().post('/api/login', loginBody)
+    const response = await request().post('/oapi/login', loginBody)
 
     expect(response.statusCode).toBe(401)
     expect(response.body.name).toBe('User UNAUTHORIZED')
@@ -71,7 +71,7 @@ describe('/login', () => {
       password: userMock.username,
     }
 
-    const response = await request().post('/api/login', loginBody)
+    const response = await request().post('/oapi/login', loginBody)
 
     expect(response.statusCode).toBe(401)
     expect(response.body.name).toBe('User UNAUTHORIZED')
@@ -82,7 +82,7 @@ describe('/login', () => {
       password: userMock.username,
     }
 
-    const response = await request().post('/api/login', loginBody)
+    const response = await request().post('/oapi/login', loginBody)
 
     expect(response.statusCode).toBe(401)
     expect(response.body.name).toBe('User UNAUTHORIZED')
@@ -93,7 +93,7 @@ describe('/login', () => {
       username: userMock.username,
     }
 
-    const response = await request().post('/api/login', loginBody)
+    const response = await request().post('/oapi/login', loginBody)
 
     expect(response.statusCode).toBe(401)
     expect(response.body.name).toBe('User UNAUTHORIZED')
