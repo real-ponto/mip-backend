@@ -1,6 +1,6 @@
 const R = require('ramda')
 
-const { generateCompanyGroup } = require('../../../helpers/mockData/companyGroup')
+const { generateCompanyGroup } = require('../../../helpers/mockData/company')
 const CompanyGroupDomain = require('./')
 
 const { FieldValidationError } = require('../../../helpers/errors')
