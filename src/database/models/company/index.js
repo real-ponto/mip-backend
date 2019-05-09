@@ -18,8 +18,6 @@ module.exports = (sequelize) => {
 
     razaoSocial: {
       type: Sequelize.STRING,
-      allowNull: false,
-      // unique: true,
     },
 
     name: {
@@ -30,20 +28,15 @@ module.exports = (sequelize) => {
 
     nickname: { // name that will show in cards
       type: Sequelize.STRING,
-      allowNull: false,
-      // unique: true,
     },
 
     stateRegistration: {
       type: Sequelize.STRING,
-      allowNull: false,
       defaultValue: 'isento',
     },
 
     cnpj: {
       type: Sequelize.STRING,
-      allowNull: false,
-      // unique: true,
     },
   })
 
